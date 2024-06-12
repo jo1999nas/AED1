@@ -28,7 +28,7 @@ void inserirInicio(int valor){
 
 void inserirFinal(int valor){
     struct no *aux, *p;         // Criamos duas variaveis: aux e p
-    aux = (struct no*) malloc(sizeof(struct no));   //Alocamos espaço para aux
+    aux = (struct no*) malloc(sizeof(struct no));   // Alocamos espaço para aux
     if (aux != NULL){           // Se aux foi alocado corretamente
         aux->info = valor;      // Salvamos o valor no campo info de aux
         aux->prox = NULL;       // O proximo de aux aponta para NULL (inserção no final)
