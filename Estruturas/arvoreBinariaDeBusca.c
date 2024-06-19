@@ -1,17 +1,21 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+// Declaração da estrutura de um nó
 struct no {
     int info;
     struct no *esq, *dir;
 };
 
+// Ponteiro para a raiz da árvore
 struct no *raiz;
 
+// Procedimento para incializar a árvore
 void inicializarArvore() {
-    raiz == NULL;
+    raiz = NULL;
 }
 
+// Função para criar um nó
 struct no *criaNo(int valor) {
     struct no *novo;
     novo = (struct no *) malloc(sizeof(struct no));
@@ -23,6 +27,7 @@ struct no *criaNo(int valor) {
     return novo;
 }
 
+// Procedimento para inserir um nó na árvore
 void inserirNo(int valor) {
     struct no *novo = criaNo(valor);
     if (novo != NULL) {
@@ -53,6 +58,14 @@ void inserirNo(int valor) {
     }
 }
 
+// Procedimento para imprimir um nó da árvore
+void imprimeNo(struct no *raiz) {
+    if (raiz != NULL) {
+        printf("%d ",raiz->info);
+    }
+}
+
+// Procedimento para percorrer a árvore em pre-ordem
 void preOrdem(struct no *raiz) {
     if (raiz != NULL) {
         printf("%d ",raiz->info);
@@ -61,6 +74,7 @@ void preOrdem(struct no *raiz) {
     }
 }
 
+// Procedimento para percorrer a árvore em ordem
 void emOrdem(struct no *raiz) {
     if (raiz != NULL) {
         emOrdem(raiz->esq);
@@ -69,6 +83,7 @@ void emOrdem(struct no *raiz) {
     }
 }
 
+// Procedimento para percorrer a árvore em pós-ordem
 void posOrdem(struct no *raiz) {
     if(raiz != NULL) {
         posOrdem(raiz->esq);
@@ -77,8 +92,9 @@ void posOrdem(struct no *raiz) {
     }
 }
 
+// Função para buscar um nó na árvore
 struct no* buscaNo(int valor) {
-    no *aux = raiz;
+    struct no *aux = raiz;
     while (aux != NULL) {
         // Valor encontrado
         if (valor == aux->info) return aux;
@@ -98,8 +114,9 @@ struct no* buscaNo(int valor) {
     return NULL;    // Nó não encontrado
 }
 
+// Procedimento para liberar a memória da árvore
 void liberarArvore(struct no *raiz) {
-    if (aux == NULL) {
+    if (raiz == NULL) {
         return;
     }
     liberarArvore(raiz->esq);
@@ -107,20 +124,73 @@ void liberarArvore(struct no *raiz) {
     free(raiz);
 }
 
+// Função que calcula a altura da árvore
+int alturaArvore(struct no *raiz) {
+    if (raiz == NULL) {     // Se a árvore for vazia, não tem altura
+        return -1;
+    }
+    int esquerda = alturaArvore(raiz->esq);     // Calculando a altura da subárvore à esquerda
+    int direita = alturaArvore(raiz->dir);      // Calculando a altura da subárvore à direita
+    if (esquerda > direita) {
+        return esquerda + 1;    // Retorna a altura da subárvore à esquerda mais 1
+    }
+    else {
+        return direita + 1;     // Retorna a altura da subárvore à direita mais 1
+    }
+}
+
+// Função que calcula o número de nós da árvore
+int contaNos(struct no *raiz) {
+    if (raiz == NULL) {     // Se a árvore for vazia, não tem nós
+        return 0;
+    }
+    // A quantidade de nós é a quantidade das duas subárvores mais da raíz
+    return contaNos(raiz->esq) + contaNos(raiz->dir) + 1;
+}
+
+// Função que calcula o número de folhas da árvore
+int contaFolhas(struct no *raiz) {
+    if (raiz == NULL) {     // Se a árvore for vazia, não tem folhas
+        return 0;
+    }
+    // Se um nó não tem filhos, conta como folha
+    else if (raiz->esq == NULL && raiz->dir == NULL) {
+        return 1;   // Esse return 1 que efetivamente faz a conta
+    }
+    else {
+        // Por fim, contamos a quantidade das duas subárvores
+        return contaFolhas(raiz->esq) + contaFolhas(raiz->dir);
+    }
+}
+
+// Função que encontra o nó com o menor valor armazenado na árvore
+struct no *menorValor(struct no *raiz) {
+    // O menor valor de uma árvore binária de busca é o mais a esquerda
+    // Se o filho esquerdo da raíz não existe, a raíz é o menor elemento
+    if (raiz->esq == NULL) {
+        return raiz;
+    }
+    struct no *aux = raiz;  // Criamos um ponteiro auxiliar para percorrer a árvore
+    // Enquanto houver filho à esquerda, avançamos
+    while (aux->esq != NULL){
+        aux = aux->esq;
+    }
+    return aux;     // Por fim, retornamos aux
+}
+
+// Função que encontra o nó com o maior valor armazenado na árvore
+struct no *maiorValor(struct no *raiz) {
+    if (raiz->dir == NULL) {
+        return raiz;
+    }
+    struct no *aux = raiz;
+    while (aux->dir != NULL) {
+        aux = aux->dir;
+    }
+    return aux;
+}
+
 int main() {
-    inserirNo(25);
-    inserirNo(16);
-    inserirNo(20);
-    inserirNo(7);
-    inserirNo(9);
-    inserirNo(8);
-    inserirNo(2);
-    inserirNo(3);
-    preOrdem(raiz);
-    printf("\n\n");
-    emOrdem(raiz);
-    printf("\n\n");
-    posOrdem(raiz);
-    printf("\n\n");
+    inicializarArvore();
     return 0;
 }
